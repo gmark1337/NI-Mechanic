@@ -1,7 +1,4 @@
-﻿using Mechanic.Api.IServices;
-using Mechanic.Api.Modells;
-
-namespace Mechanic.Api.Services
+﻿namespace Mechanic.Api.Services
 {
     public class JobService : IJobService
     {

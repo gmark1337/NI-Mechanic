@@ -1,5 +1,4 @@
-﻿using Mechanic.Api.EFcore;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Mechanic.Controllers
 {
@@ -7,7 +6,6 @@ namespace Mechanic.Controllers
     [Route("client")]
     public class ClientController : ControllerBase
     {
-        //private readonly IClientService _clientService;
         private readonly MechanicDbContext _mechanicDbContext;
 
         public ClientController(MechanicDbContext mechanicDbContext)

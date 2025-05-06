@@ -1,6 +1,4 @@
-﻿using Mechanic.Api.Modells;
-
-namespace Mechanic
+﻿namespace Mechanic
 {
     public static class JobHelper
     {

@@ -1,6 +1,4 @@
-﻿using Mechanic.Api.Modells;
-
-namespace Mechanic.Api.IServices
+﻿namespace Mechanic
 {
     public interface IJobService
     {
@@ -15,10 +13,6 @@ namespace Mechanic.Api.IServices
         void Update(Job job);
 
         double GetEstimatedHours(string jobId);
-
-        double CalculateEstimatedHours(Job job);
-
-
 
     }
 }
