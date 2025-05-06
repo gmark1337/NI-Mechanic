@@ -38,6 +38,7 @@ namespace Mechanic
         [Required(AllowEmptyStrings = false)]
         public workStage status { get; set; }
 
+
     }
 
     public enum workCategory

@@ -6,24 +6,25 @@ namespace Mechanic.Controllers
     [Route("job")]
     public class JobController : Controller
     {
-        private readonly IJobService _jobService;
+        private readonly MechanicDbContext _mechanicDbContext;
 
-        public JobController(IJobService jobService)
+        public JobController(MechanicDbContext mechanicDbContext)
         {
-            _jobService = jobService;
+            _mechanicDbContext = mechanicDbContext;
         }
 
 
         [HttpPost]
         public IActionResult Add([FromBody] Job job)
         {
-            var existingJob = _jobService.Get(job.jobId);
+            var existingJob = _mechanicDbContext.Jobs.Find(job.jobId);
             if (existingJob != null)
             {
                 return Conflict();
             }
 
-            _jobService.Add(job);
+            _mechanicDbContext.Jobs.Add(job);
+            _mechanicDbContext.SaveChanges();
 
             return Ok();
         }
@@ -32,14 +33,15 @@ namespace Mechanic.Controllers
         [HttpDelete("{jobId}")]
         public IActionResult Delete(string jobId)
         {
-            var existingJob = _jobService.Get(jobId);
+            var existingJob = _mechanicDbContext.Jobs.Find(jobId);
 
             if (existingJob is null)
             {
                 return NotFound();
             }
 
-            _jobService.Delete(jobId);
+            _mechanicDbContext.Jobs.Remove(existingJob);
+            _mechanicDbContext.SaveChanges();
 
             return Ok();
         }
@@ -47,14 +49,14 @@ namespace Mechanic.Controllers
         [HttpGet]
         public ActionResult<List<Job>> GetAll()
         {
-            var job = _jobService.Get();
+            var job = _mechanicDbContext.Jobs.ToList();
             return Ok(job);
         }
 
         [HttpGet("{jobId}")]
         public ActionResult<Job> Get(string jobId)
         {
-            var existingJob = _jobService.Get(jobId);
+            var existingJob = _mechanicDbContext.Jobs.Find(jobId);
 
             if (jobId is null)
             {
@@ -73,14 +75,22 @@ namespace Mechanic.Controllers
                 return BadRequest();
             }
 
-            var oldJob = _jobService.Get(jobId);
+            var oldJob = _mechanicDbContext.Jobs.Find(jobId);
 
             if (oldJob is null)
             {
                 return NotFound();
             }
 
-            _jobService.Update(job);
+            oldJob.licensePlate = job.licensePlate;
+            oldJob.manufacturingYear = job.manufacturingYear;
+            oldJob.description = job.description;
+            oldJob.severity = job.severity;
+            oldJob.status = job.status;
+            oldJob.workCategory = job.workCategory;
+
+            _mechanicDbContext.Jobs.Update(oldJob);
+            _mechanicDbContext.SaveChanges();
 
             return Ok();
         }
@@ -89,13 +99,13 @@ namespace Mechanic.Controllers
         [HttpGet("{jobId}/estimate")]
         public ActionResult<double> GetEstimatedHours(string jobId)
         {
-            var existingJob = _jobService.Get(jobId);
+            var existingJob = _mechanicDbContext.Jobs.Find(jobId);
             if (existingJob is null)
             {
                 return NotFound();
             }
 
-            var estimate = _jobService.CalculateEstimatedHours(existingJob);
+            var estimate = JobHelper.CalculateEstimatedHours(existingJob);
 
             return Ok(estimate);
 
