@@ -1,12 +1,20 @@
 
 using Mechanic;
 using Serilog;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//Converts enum data(for eg.: 0,1,2,3,4) to string(Karosszéria for e.g)
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();
 
@@ -43,7 +51,3 @@ app.Run();
 //                                      -Attribute validation(Whitespace and empty strings
 
 //-----------------------------------------------------------------------------------------------------------------------
-
-//TODO: Job(jobId, id, licensePlate, ManufacturingYear, Category, Description, Severity,Status -> VALIDATION!!
-//TODO: IJobService + Implementation with List
-//TODO: JobController: CRUD endpoints

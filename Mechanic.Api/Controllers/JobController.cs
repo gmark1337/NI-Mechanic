@@ -1,5 +1,4 @@
-﻿using Mechanic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Mechanic.Controllers
 {
@@ -85,5 +84,22 @@ namespace Mechanic.Controllers
 
             return Ok();
         }
+
+
+        [HttpGet("{jobId}/estimate")]
+        public ActionResult<double> GetEstimatedHours(string jobId)
+        {
+            var existingJob = _jobService.Get(jobId);
+            if (existingJob is null)
+            {
+                return NotFound();
+            }
+
+            var estimate = _jobService.CalculateEstimatedHours(existingJob);
+
+            return Ok(estimate);
+
+        }
+
     }
 }

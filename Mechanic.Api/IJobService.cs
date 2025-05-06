@@ -1,6 +1,4 @@
-﻿using Mechanic;
-
-namespace Mechanic
+﻿namespace Mechanic
 {
     public interface IJobService
     {
@@ -13,6 +11,12 @@ namespace Mechanic
         Job Get(string jobId);
 
         void Update(Job job);
+
+        double GetEstimatedHours(string jobId);
+
+        double CalculateEstimatedHours(Job job);
+
+
 
     }
 }

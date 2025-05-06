@@ -1,22 +1,7 @@
-﻿namespace Mechanic
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Mechanic
 {
-
-    //    Munka
-    // • Munka azonosító(EF által automatikusan generált)
-
-    // • Ügyfélszám
-
-    // • Gépjármű rendszáma– Validációs kikötés: Megfelelő rendszám formátummal legyen ellátva:
-
-    //  XXX-YYY(X: nagy betűk, Y: számok)
-
-    // • Gépjármű gyártási éve– Validációs kikötés: A gyártási év ne lehessen 1900-nál kisebb
-
-    // • Munka kategóriája– Itt megengedett értékek: Karosszéria, motor, futómű, fékberendezés
-
-    // • Gépjármű hibáinak rövid leírása
-
-    // • Ahiba súlyossága– Amegengedett érték 1-10 intervallumba eshet
 
     // • Munka állapota– Megengedett értékek: Felvett Munka-> Elvégzés alatt-> Befejezett–
     //  Az értékeket csak a nyílnak megfelelő irányba lehessen változtatni
@@ -28,16 +13,42 @@
 
         public string customerId { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
+        [RegularExpression(@"^[A-Z]{3}-\d{3}")]
         public string licensePlate { get; set; }
 
-        public int manufactingYear { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        [Range(1900, 2025)]
+        public int manufacturingYear { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
+        public workCategory workCategory { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
         public string description { get; set; }
 
+
+        [Required(AllowEmptyStrings = false)]
+        [Range(1, 10)]
         public int severity { get; set; }
 
-        public string status { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public workStage status { get; set; }
 
+    }
 
+    public enum workCategory
+    {
+        Karosszéria,
+        motor,
+        futómű,
+        fékberendezés
+    }
+
+    public enum workStage
+    {
+        Felvett_Munka = 0,
+        Elvégzés_alatt = 1,
+        Befejezett = 2
     }
 }
