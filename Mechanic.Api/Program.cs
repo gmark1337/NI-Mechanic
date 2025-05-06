@@ -6,6 +6,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<IClientService, ClientService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
