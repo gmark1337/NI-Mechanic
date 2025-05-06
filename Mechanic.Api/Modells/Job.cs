@@ -13,7 +13,6 @@ namespace Mechanic
 
         public string customerId { get; set; }
 
-
         [Required(AllowEmptyStrings = false)]
         [RegularExpression(@"^[A-Z]{3}-\d{3}")]
         public string licensePlate { get; set; }
@@ -40,6 +39,9 @@ namespace Mechanic
         [Required(AllowEmptyStrings = false)]
         public workStage status { get; set; }
 
+
+        [ForeignKey("customerId")]
+        public virtual Client Client { get; set; }
 
     }
 

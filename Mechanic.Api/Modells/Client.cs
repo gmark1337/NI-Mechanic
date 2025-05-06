@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Mechanic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class Client
@@ -19,5 +20,6 @@ public class Client
     [Required(AllowEmptyStrings = false)]
     [EmailAddress]
     public string Email { get; set; }
+
 
 }

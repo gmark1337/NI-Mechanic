@@ -2,6 +2,7 @@
 using Mechanic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mechanic.Api.Migrations
 {
     [DbContext(typeof(MechanicDbContext))]
-    partial class MechanicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506192406_AddClientJobRelation")]
+    partial class AddClientJobRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
