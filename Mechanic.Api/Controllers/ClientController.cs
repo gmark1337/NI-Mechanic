@@ -4,7 +4,7 @@ namespace Mechanic.Controllers
 {
     [ApiController]
     [Route("client")]
-    public class ClientController : ControllerBase  
+    public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
 

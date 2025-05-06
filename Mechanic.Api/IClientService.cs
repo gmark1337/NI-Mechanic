@@ -1,6 +1,4 @@
-﻿using System;
-
-public interface IClientService
+﻿public interface IClientService
 {
     void Add(Client client);
 

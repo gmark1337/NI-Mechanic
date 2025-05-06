@@ -1,3 +1,5 @@
+
+using Mechanic;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddSerilog(
 
 
 builder.Services.AddSingleton<IClientService, ClientService>();
+
+builder.Services.AddSingleton<IJobService, JobService>();
 
 var app = builder.Build();
 

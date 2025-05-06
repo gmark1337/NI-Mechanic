@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-
-public class ClientService : IClientService
+﻿public class ClientService : IClientService
 {
     private readonly List<Client> _client;
     private readonly ILogger<ClientService> _logger;
