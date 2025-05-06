@@ -6,24 +6,26 @@ namespace Mechanic.Controllers
     [Route("client")]
     public class ClientController : ControllerBase
     {
-        private readonly IClientService _clientService;
+        //private readonly IClientService _clientService;
+        private readonly MechanicDbContext _mechanicDbContext;
 
-        public ClientController(IClientService clientService)
+        public ClientController(MechanicDbContext mechanicDbContext)
         {
-            _clientService = clientService;
+            _mechanicDbContext = mechanicDbContext;
         }
 
         [HttpPost]
         public IActionResult Add([FromBody] Client client)
         {
-            var existingClient = _clientService.Get(client.Id);
+            var existingClient = _mechanicDbContext.Clients.Find(client.Id);
 
             if (existingClient != null)
             {
                 return Conflict();
             }
 
-            _clientService.Add(client);
+            _mechanicDbContext.Clients.Add(client);
+            _mechanicDbContext.SaveChanges();
 
             return Ok();
         }
@@ -31,14 +33,15 @@ namespace Mechanic.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            var existingClient = _clientService.Get(id);
+            var existingClient = _mechanicDbContext.Clients.Find(id);
 
             if (existingClient is null)
             {
                 return NotFound();
             }
 
-            _clientService.Delete(id);
+            _mechanicDbContext.Clients.Remove(existingClient);
+            _mechanicDbContext.SaveChanges();
 
             return Ok();
 
@@ -47,14 +50,14 @@ namespace Mechanic.Controllers
         [HttpGet]
         public ActionResult<List<Client>> GetAll()
         {
-            var client = _clientService.Get();
+            var client = _mechanicDbContext.Clients.ToList();
             return Ok(client);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Client> Get(string id)
         {
-            var client = _clientService.Get(id);
+            var client = _mechanicDbContext.Clients.Find(id);
 
             if (client is null)
             {
@@ -72,7 +75,7 @@ namespace Mechanic.Controllers
                 return BadRequest();
             }
 
-            var oldClient = _clientService.Get(id);
+            var oldClient = _mechanicDbContext.Clients.Find(id);
 
 
             if (oldClient is null)
@@ -80,7 +83,12 @@ namespace Mechanic.Controllers
                 return NotFound();
             }
 
-            _clientService.Update(client);
+            oldClient.Name = client.Name;
+            oldClient.Address = client.Address;
+            oldClient.Email = client.Email;
+
+            _mechanicDbContext.Clients.Update(oldClient);
+            _mechanicDbContext.SaveChanges();
 
             return Ok();
         }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mechanic
 {
@@ -9,6 +10,8 @@ namespace Mechanic
     {
         //TODO: Job(jobId, id, licensePlate, ManufacturingYear, Category, Description, Severity,Status -> VALIDATION!!
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string jobId { get; set; }
 
         public string customerId { get; set; }

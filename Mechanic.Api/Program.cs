@@ -1,5 +1,6 @@
 
 using Mechanic;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json.Serialization;
 
@@ -28,6 +29,12 @@ builder.Services.AddSerilog(
 builder.Services.AddSingleton<IClientService, ClientService>();
 
 builder.Services.AddSingleton<IJobService, JobService>();
+
+builder.Services.AddDbContext<MechanicDbContext>(
+    options =>
+    {
+        options.UseSqlite(builder.Configuration.GetConnectionString("SQLite"));
+    });
 
 var app = builder.Build();
 
