@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mechanic.Controllers
 {
@@ -14,9 +15,9 @@ namespace Mechanic.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] Client client)
+        public async Task<IActionResult> Add([FromBody] Client client)
         {
-            var existingClient = _mechanicDbContext.Clients.Find(client.Id);
+            var existingClient = await _mechanicDbContext.Clients.FindAsync(client.Id);
 
             if (existingClient != null)
             {
@@ -24,15 +25,15 @@ namespace Mechanic.Controllers
             }
 
             _mechanicDbContext.Clients.Add(client);
-            _mechanicDbContext.SaveChanges();
+            await _mechanicDbContext.SaveChangesAsync();
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var existingClient = _mechanicDbContext.Clients.Find(id);
+            var existingClient = await _mechanicDbContext.Clients.FindAsync(id);
 
             if (existingClient is null)
             {
@@ -40,23 +41,23 @@ namespace Mechanic.Controllers
             }
 
             _mechanicDbContext.Clients.Remove(existingClient);
-            _mechanicDbContext.SaveChanges();
+            await _mechanicDbContext.SaveChangesAsync();
 
             return Ok();
 
         }
 
         [HttpGet]
-        public ActionResult<List<Client>> GetAll()
+        public async Task<ActionResult<List<Client>>> GetAll()
         {
-            var client = _mechanicDbContext.Clients.ToList();
+            var client = await _mechanicDbContext.Clients.ToListAsync();
             return Ok(client);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Client> Get(string id)
+        public async Task<ActionResult<Client>> Get(string id)
         {
-            var client = _mechanicDbContext.Clients.Find(id);
+            var client = await _mechanicDbContext.Clients.FindAsync(id);
 
             if (client is null)
             {
@@ -67,14 +68,14 @@ namespace Mechanic.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(string id, [FromBody] Client client)
+        public async Task<IActionResult> Update(string id, [FromBody] Client client)
         {
             if (id != client.Id)
             {
                 return BadRequest();
             }
 
-            var oldClient = _mechanicDbContext.Clients.Find(id);
+            var oldClient = await _mechanicDbContext.Clients.FindAsync(id);
 
 
             if (oldClient is null)
@@ -87,7 +88,7 @@ namespace Mechanic.Controllers
             oldClient.Email = client.Email;
 
             _mechanicDbContext.Clients.Update(oldClient);
-            _mechanicDbContext.SaveChanges();
+            await _mechanicDbContext.SaveChangesAsync();
 
             return Ok();
         }

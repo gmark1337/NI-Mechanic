@@ -1,5 +1,5 @@
-﻿using Mechanic.Api.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mechanic.Controllers
 {
@@ -16,25 +16,25 @@ namespace Mechanic.Controllers
 
 
         [HttpPost]
-        public IActionResult Add([FromBody] Job job)
+        public async Task<IActionResult> Add([FromBody] Job job)
         {
-            var existingJob = _mechanicDbContext.Jobs.Find(job.jobId);
+            var existingJob = await _mechanicDbContext.Jobs.FindAsync(job.jobId);
             if (existingJob != null)
             {
                 return Conflict();
             }
 
             _mechanicDbContext.Jobs.Add(job);
-            _mechanicDbContext.SaveChanges();
+            await _mechanicDbContext.SaveChangesAsync();
 
             return Ok();
         }
 
 
         [HttpDelete("{jobId}")]
-        public IActionResult Delete(string jobId)
+        public async Task<IActionResult> Delete(string jobId)
         {
-            var existingJob = _mechanicDbContext.Jobs.Find(jobId);
+            var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
 
             if (existingJob is null)
             {
@@ -42,22 +42,22 @@ namespace Mechanic.Controllers
             }
 
             _mechanicDbContext.Jobs.Remove(existingJob);
-            _mechanicDbContext.SaveChanges();
+            await _mechanicDbContext.SaveChangesAsync();
 
             return Ok();
         }
 
         [HttpGet]
-        public ActionResult<List<Job>> GetAll()
+        public async Task<ActionResult<List<Job>>> GetAll()
         {
-            var job = _mechanicDbContext.Jobs.ToList();
+            var job = await _mechanicDbContext.Jobs.ToListAsync();
             return Ok(job);
         }
 
         [HttpGet("{jobId}")]
-        public ActionResult<Job> Get(string jobId)
+        public async Task<ActionResult<Job>> Get(string jobId)
         {
-            var existingJob = _mechanicDbContext.Jobs.Find(jobId);
+            var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
 
             if (jobId is null)
             {
@@ -69,14 +69,14 @@ namespace Mechanic.Controllers
 
 
         [HttpPut("{jobId}")]
-        public IActionResult Update(string jobId, [FromBody] Job job)
+        public async Task<IActionResult> Update(string jobId, [FromBody] Job job)
         {
             if (jobId != job.jobId)
             {
                 return BadRequest();
             }
 
-            var oldJob = _mechanicDbContext.Jobs.Find(jobId);
+            var oldJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
 
             if (oldJob is null)
             {
@@ -91,16 +91,16 @@ namespace Mechanic.Controllers
             oldJob.workCategory = job.workCategory;
 
             _mechanicDbContext.Jobs.Update(oldJob);
-            _mechanicDbContext.SaveChanges();
+            await _mechanicDbContext.SaveChangesAsync();
 
             return Ok();
         }
 
 
         [HttpGet("{jobId}/estimate")]
-        public ActionResult<double> GetEstimatedHours(string jobId)
+        public async Task<ActionResult<double>> GetEstimatedHours(string jobId)
         {
-            var existingJob = _mechanicDbContext.Jobs.Find(jobId);
+            var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
             if (existingJob is null)
             {
                 return NotFound();

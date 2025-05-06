@@ -35,6 +35,7 @@ builder.Services.AddDbContext<MechanicDbContext>(
     options =>
     {
         options.UseSqlite(builder.Configuration.GetConnectionString("SQLite"));
+        options.UseLazyLoadingProxies();
     });
 
 var app = builder.Build();
