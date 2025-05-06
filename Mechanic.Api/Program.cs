@@ -1,3 +1,5 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSerilog(
+    options => options
+    .MinimumLevel.Information()
+    .WriteTo.Console());
+
+
 
 builder.Services.AddSingleton<IClientService, ClientService>();
 
@@ -23,3 +32,14 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+//                                          ALWAYS REMEMBER!!!
+//                                      -Attribute validation(Whitespace and empty strings
+
+//-----------------------------------------------------------------------------------------------------------------------
+
+//TODO: Job(jobId, id, licensePlate, ManufacturingYear, Category, Description, Severity,Status -> VALIDATION!!
+//TODO: IJobService + Implementation with List
+//TODO: JobController: CRUD endpoints

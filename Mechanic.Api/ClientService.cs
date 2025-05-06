@@ -4,14 +4,17 @@ using System;
 public class ClientService : IClientService
 {
     private readonly List<Client> _client;
+    private readonly ILogger<ClientService> _logger;
 
-    public ClientService()
+    public ClientService(ILogger<ClientService> logger)
     {
         _client = [];
+        _logger = logger;
     }
     public void Add(Client client)
     {
         _client.Add(client);
+        _logger.LogInformation("Client added: {@Client}", client);
     }
 
     public void Delete(string id)
@@ -36,6 +39,8 @@ public class ClientService : IClientService
         oldClient.Name = client.Name;
         oldClient.Address = client.Address;
         oldClient.Email = client.Email;
+
+        _logger.LogInformation($"Client updated: {client.Name}");
     }
 }
 
