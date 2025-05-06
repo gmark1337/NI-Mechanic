@@ -1,4 +1,6 @@
-﻿namespace Mechanic
+﻿using Mechanic.Api.Modells;
+
+namespace Mechanic.Api.IServices
 {
     public interface IJobService
     {

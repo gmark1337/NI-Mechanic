@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mechanic.Api.Modells;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace Mechanic
+namespace Mechanic.Api.EFcore
 {
     public class MechanicDbContext : DbContext
     {

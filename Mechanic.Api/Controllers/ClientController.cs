@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mechanic.Api.EFcore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mechanic.Controllers
 {

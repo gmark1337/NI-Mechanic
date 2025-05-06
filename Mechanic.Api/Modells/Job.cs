@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mechanic
+namespace Mechanic.Api.Modells
 {
 
     // • Munka állapota– Megengedett értékek: Felvett Munka-> Elvégzés alatt-> Befejezett–
