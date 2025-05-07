@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mechanic.Api.Modells;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mechanic.Controllers
@@ -51,7 +52,17 @@ namespace Mechanic.Controllers
         public async Task<ActionResult<List<Client>>> GetAll()
         {
             var client = await _mechanicDbContext.Clients.ToListAsync();
-            return Ok(client);
+
+            var clients = await _mechanicDbContext.Clients.Select
+                (c => new ClientDetailDTO
+                {
+                    Id = c.Id,
+                    Address = c.Address,
+                    Name = c.Name,
+                    Email = c.Email,
+                }).ToListAsync();
+
+            return Ok(clients);
         }
 
         [HttpGet("{id}")]
@@ -64,7 +75,14 @@ namespace Mechanic.Controllers
                 return NotFound();
             }
 
-            return Ok(client);
+            var clientDTO = new ClientDTO
+            {
+                Address = client.Address,
+                Name = client.Name,
+                Email = client.Email
+            };
+
+            return Ok(clientDTO);
         }
 
         [HttpPut("{id}")]
