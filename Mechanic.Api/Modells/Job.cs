@@ -48,9 +48,9 @@ namespace Mechanic
     public enum workCategory
     {
         Karosszéria,
-        motor,
-        futómű,
-        fékberendezés
+        Motor,
+        Futómű,
+        Fékberendezés
     }
 
     public enum workStage

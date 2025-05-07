@@ -11,7 +11,7 @@ namespace Mechanic.Test
         private MechanicDbContext GetDbContext()
         {
             var options = new DbContextOptionsBuilder<MechanicDbContext>()
-                .UseInMemoryDatabase(databaseName: "MechanicDbTest")
+                .UseInMemoryDatabase(databaseName: "ClientDbTest")
                 .Options;
 
             return new MechanicDbContext(options);  
@@ -89,7 +89,7 @@ namespace Mechanic.Test
 
             var newClient = new Client
             {
-                Id = "2",
+                Id = "1",
                 Name = "Mark",
                 Address = "Bucket",
                 Email = "IloveMiskolc@email.com"
@@ -97,7 +97,7 @@ namespace Mechanic.Test
             await dbContext.Clients.AddAsync(newClient);
             await dbContext.SaveChangesAsync();
 
-            var result = await controller.Delete("2");
+            var result = await controller.Delete("1");
 
             Assert.IsType<OkResult>(result);
         }

@@ -7,9 +7,9 @@
             double baseHours = job.workCategory switch
             {
                 workCategory.Karosszéria => 3,
-                workCategory.motor => 8,
-                workCategory.futómű => 6,
-                workCategory.fékberendezés => 4,
+                workCategory.Motor => 8,
+                workCategory.Futómű => 6,
+                workCategory.Fékberendezés => 4,
                 _ => 0
             };
 

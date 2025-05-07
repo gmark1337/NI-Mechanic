@@ -59,7 +59,7 @@ namespace Mechanic.Controllers
         {
             var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
 
-            if (jobId is null)
+            if (existingJob is null)
             {
                 return NotFound();
             }
