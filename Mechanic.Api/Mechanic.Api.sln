@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mechanic.Api", "Mechanic.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mechanic.Test", "..\Mechanic.Test\Mechanic.Test.csproj", "{D0883B69-AE77-42BD-9173-9EB81626A0E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mechanic.UI", "..\Mechanic.UI\Mechanic.UI.csproj", "{D3785A2E-9623-406A-8134-7E282932D0AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D0883B69-AE77-42BD-9173-9EB81626A0E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0883B69-AE77-42BD-9173-9EB81626A0E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0883B69-AE77-42BD-9173-9EB81626A0E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3785A2E-9623-406A-8134-7E282932D0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3785A2E-9623-406A-8134-7E282932D0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3785A2E-9623-406A-8134-7E282932D0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3785A2E-9623-406A-8134-7E282932D0AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
