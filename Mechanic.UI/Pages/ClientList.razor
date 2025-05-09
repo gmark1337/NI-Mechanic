@@ -1,5 +1,54 @@
-﻿<h3>ClientList</h3>
+﻿@page "/client"
+@using Mechanic.UI.Services
+@inject IClientService ClientService
+
+
+
+
+<h3>ClientList</h3>
+
+
+<div class="mb-3">
+	<a href="/client/add" class="btn btn-primary ">Add Client</a>
+</div>
+
+@if (_client is not null)
+{
+    <table class="table table-hover border">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in _client)
+            {
+                <tr>
+                    <td>@client.Name</td>
+                    <td>@client.Email</td>
+                    <td>@client.Address</td>
+                    <td>
+                        <a href="/client/@client.Id">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading...</p>
+}
+
 
 @code {
+    private List<Client> _client;
 
+	protected override async Task OnInitializedAsync(){
+		_client = await ClientService.GetClientsAsync();
+	}
 }

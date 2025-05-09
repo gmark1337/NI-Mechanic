@@ -6,8 +6,6 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Mechanic.Api\Mechanic.Api.csproj" />
-  </ItemGroup>
+ 
 
 </Project>

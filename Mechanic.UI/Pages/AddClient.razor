@@ -1,5 +1,17 @@
-﻿<h3>AddClient</h3>
+﻿@page "/client/add"
+@using Mechanic.UI.Services
+@inject IClientService ClientService
+@inject NavigationManager NavigationManager
+
+
+<h3>AddClient</h3>
+
 
 @code {
+	private Client _client = new();
 
+	private async Task AddPersonAsync(){
+		await ClientService.AddClientAsync(_client);
+		NavigationManager.NavigateTo("/client");
+	}
 }

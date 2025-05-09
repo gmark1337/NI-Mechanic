@@ -1,5 +1,27 @@
-﻿<h3>ClientDetails</h3>
+﻿@page "/client/{id}"
+@using Mechanic.UI.Services
+@inject IClientService ClientService
+@inject NavigationManager NavigationManager
+
+<h3>ClientDetails</h3>
 
 @code {
+	private Client _client;
 
+	[Parameter]
+	public string Id { get; set; }
+
+	protected override async Task OnInitializedAsync(){
+		_client = await ClientService.GetClientAsync(Id);
+	}
+
+	private async Task DeleteAsync(){
+		await ClientService.DeleteClientAsync(Id);
+		NavigationManager.NavigateTo("/client");
+	}
+
+	private async Task UpdateAsync(){
+		await ClientService.UpdateClientAsync(Id, _client);
+		NavigationManager.NavigateTo("/client");
+	}
 }
