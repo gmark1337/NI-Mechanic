@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Mechanic.Shared\Mechanic.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modells\" />
+  </ItemGroup>
+
 </Project>

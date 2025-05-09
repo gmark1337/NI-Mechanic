@@ -1,0 +1,55 @@
+﻿@page "/job"
+@using Mechanic.Shared
+@using Mechanic.UI.Services;
+@inject IJobService JobService
+
+
+<h3>Job List</h3>
+
+<div class=" mb-3">
+	<a href="/job/add" class="btn btn-primary">Add person</a>
+</div>
+
+@if (_job is not null)
+{
+	<table class=" table table-hover border">
+		<thead>
+			<tr>
+				<th>Client name</th>
+				<th>License Plate</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var job in _job)
+			{
+				<tr>
+					<td>@job.Client.Name</td>
+					<td>@job.licensePlate</td>
+					<td>
+						<a href="/job/@job.jobId">
+							Details
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<p>Loading...</p>
+}
+
+
+
+@code {
+	private List<Job> _job;
+
+	private List<Client> _client;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_job = await JobService.GetJobsAsync();
+	}
+}

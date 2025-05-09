@@ -15,4 +15,14 @@ public class MechanicDbContext : DbContext
 
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Job>()
+            .HasOne(c => c.Client)
+            .WithMany(c => c.Jobs)
+            .HasForeignKey(c => c.customerId);
+    }
+
 }

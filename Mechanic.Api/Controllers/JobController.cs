@@ -26,6 +26,12 @@ public class JobController : Controller
             return Conflict();
         }
 
+        var existingClient = await _mechanicDbContext.Clients.FindAsync(job.customerId);
+        if (existingClient == null)
+        {
+            return BadRequest();
+        }
+
         _mechanicDbContext.Jobs.Add(job);
         await _mechanicDbContext.SaveChangesAsync();
 

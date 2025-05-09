@@ -1,0 +1,69 @@
+﻿@using Mechanic.Shared
+@using Mechanic.UI.Services
+
+<EditForm Model="job" OnValidSubmit="OnValidSubmit">
+	<DataAnnotationsValidator/>
+	<ValidationSummary/>
+
+	<div class=" mb-3">
+		<label class=" form-label">License Plate</label>
+		<InputText @bind-Value="job.licensePlate" class=" form-control"/>
+		<ValidationMessage For="() => job.licensePlate"/>
+	</div>
+	<div class=" mb-3">
+		<label class=" form-label">Manufacturing Year</label>
+		<InputNumber @bind-Value="job.manufacturingYear" class=" form-control"/>
+		<ValidationMessage For="() => job.manufacturingYear"/>
+	</div>
+	<div class=" mb-3">
+		<label class=" form-label">License Plate</label>
+		<InputSelect @bind-Value="job.workCategory" class=" form-control">
+			@foreach(workCategory category in Enum.GetValues(typeof(workCategory)))
+			{
+				<option value="@category">@category</option>
+			}
+			<ValidationMessage For="() => job.workCategory"/>
+		</InputSelect>
+	</div>
+	<div class="mb-3">
+		<label class="form-label">Work Status</label>
+		<InputSelect @bind-Value="job.status" class="form-control">
+			@foreach (workStage stage in Enum.GetValues(typeof(workStage)))
+			{
+				<option value="@stage">@stage</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="() => job.status" />
+	</div>
+	<div class=" mb-3">
+		<label class=" form-label">License Plate</label>
+		<InputText @bind-Value="job.licensePlate" class=" form-control" />
+		<ValidationMessage For="() => job.licensePlate" />
+	</div>
+	<div class=" mb-3">
+		<label class=" form-label">Description </label>
+		<InputText @bind-Value="job.description" class=" form-control" />
+		<ValidationMessage For="() => job.description" />
+	</div>
+	<div class=" mb-3">
+		<label class=" form-label">Severity </label>
+		<InputNumber @bind-Value="job.severity" class=" form-control" />
+		<ValidationMessage For="() => job.severity" />
+	</div
+
+
+	<button type="submit" class="btn btn-primary">@ButtonText</button>
+</EditForm>
+
+
+@code {
+	[Parameter]
+	public Job job { get; set; }
+
+	[Parameter]
+	public Func<Task> OnValidSubmit{ get; set; }
+
+	[Parameter]
+	public string ButtonText{ get; set; }
+
+}

@@ -9,7 +9,6 @@ public class Client
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; set; }
 
-
     [Required(AllowEmptyStrings = false)]
     public string Name { get; set; }
 
@@ -23,4 +22,5 @@ public class Client
     public string Email { get; set; }
 
 
+    public ICollection<Job> Jobs { get; set; }
 }

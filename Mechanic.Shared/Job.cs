@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Mechanic.Shared;
 
 namespace Mechanic
@@ -46,6 +47,7 @@ namespace Mechanic
 
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum workCategory
     {
         Karosszéria,
@@ -53,6 +55,7 @@ namespace Mechanic
         Futómű,
         Fékberendezés
     }
+
 
     public enum workStage
     {

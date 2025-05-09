@@ -1,0 +1,42 @@
+﻿@page "/job/{id}"
+@using Mechanic.Shared
+@using Mechanic.UI.Services
+@inject IJobService JobService
+@inject NavigationManager NavigationManager
+
+<h3>Job Details</h3>
+
+@if(_job is not null)
+{
+	<JobForm Job="_job" OnValidSubmit="UpdateAsync" ButtonText="Update Job"/>
+	<button class=" btn btn-danger " @onclick="DeleteAsync">Delete Job</button>
+}
+else
+{
+	<p>Loading...</p>
+}
+
+@code {
+	private Job _job;
+
+	[Parameter]
+	public string Id { get; set; }
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		_job = await JobService.GetJobAsync(Id);
+	}
+
+	private async Task DeleteAsync()
+	{
+		await JobService.DeleteJobAsync(Id);
+		NavigationManager.NavigateTo("/job");
+	}
+
+	private async Task UpdateAsync()
+	{
+		await JobService.UpdateJobAsync(Id, _job);
+		NavigationManager.NavigateTo("job");
+	}
+}
