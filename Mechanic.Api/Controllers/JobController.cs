@@ -1,116 +1,117 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mechanic.Shared;
+using Mechanic.EFcore;
 
-namespace Mechanic.Controllers
+namespace Mechanic.Controllers;
+
+[ApiController]
+[Route("job")]
+public class JobController : Controller
 {
-    [ApiController]
-    [Route("job")]
-    public class JobController : Controller
+    private readonly MechanicDbContext _mechanicDbContext;
+
+    public JobController(MechanicDbContext mechanicDbContext)
     {
-        private readonly MechanicDbContext _mechanicDbContext;
+        _mechanicDbContext = mechanicDbContext;
+    }
 
-        public JobController(MechanicDbContext mechanicDbContext)
+
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] Job job)
+    {
+        var existingJob = await _mechanicDbContext.Jobs.FindAsync(job.jobId);
+        if (existingJob != null)
         {
-            _mechanicDbContext = mechanicDbContext;
+            return Conflict();
         }
 
+        _mechanicDbContext.Jobs.Add(job);
+        await _mechanicDbContext.SaveChangesAsync();
 
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] Job job)
+        return Ok();
+    }
+
+
+    [HttpDelete("{jobId}")]
+    public async Task<IActionResult> Delete(string jobId)
+    {
+        var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
+
+        if (existingJob is null)
         {
-            var existingJob = await _mechanicDbContext.Jobs.FindAsync(job.jobId);
-            if (existingJob != null)
-            {
-                return Conflict();
-            }
-
-            _mechanicDbContext.Jobs.Add(job);
-            await _mechanicDbContext.SaveChangesAsync();
-
-            return Ok();
+            return NotFound();
         }
 
+        _mechanicDbContext.Jobs.Remove(existingJob);
+        await _mechanicDbContext.SaveChangesAsync();
 
-        [HttpDelete("{jobId}")]
-        public async Task<IActionResult> Delete(string jobId)
+        return Ok();
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<Job>>> GetAll()
+    {
+        var job = await _mechanicDbContext.Jobs.ToListAsync();
+        return Ok(job);
+    }
+
+    [HttpGet("{jobId}")]
+    public async Task<ActionResult<Job>> Get(string jobId)
+    {
+        var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
+
+        if (existingJob is null)
         {
-            var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
-
-            if (existingJob is null)
-            {
-                return NotFound();
-            }
-
-            _mechanicDbContext.Jobs.Remove(existingJob);
-            await _mechanicDbContext.SaveChangesAsync();
-
-            return Ok();
+            return NotFound();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Job>>> GetAll()
+        return Ok(existingJob);
+    }
+
+
+    [HttpPut("{jobId}")]
+    public async Task<IActionResult> Update(string jobId, [FromBody] Job job)
+    {
+        if (jobId != job.jobId)
         {
-            var job = await _mechanicDbContext.Jobs.ToListAsync();
-            return Ok(job);
+            return BadRequest();
         }
 
-        [HttpGet("{jobId}")]
-        public async Task<ActionResult<Job>> Get(string jobId)
+        var oldJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
+
+        if (oldJob is null)
         {
-            var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
-
-            if (existingJob is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(existingJob);
+            return NotFound();
         }
 
+        oldJob.licensePlate = job.licensePlate;
+        oldJob.manufacturingYear = job.manufacturingYear;
+        oldJob.description = job.description;
+        oldJob.severity = job.severity;
+        oldJob.status = job.status;
+        oldJob.workCategory = job.workCategory;
 
-        [HttpPut("{jobId}")]
-        public async Task<IActionResult> Update(string jobId, [FromBody] Job job)
+        _mechanicDbContext.Jobs.Update(oldJob);
+        await _mechanicDbContext.SaveChangesAsync();
+
+        return Ok();
+    }
+
+
+    [HttpGet("{jobId}/estimate")]
+    public async Task<ActionResult<double>> GetEstimatedHours(string jobId)
+    {
+        var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
+        if (existingJob is null)
         {
-            if (jobId != job.jobId)
-            {
-                return BadRequest();
-            }
-
-            var oldJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
-
-            if (oldJob is null)
-            {
-                return NotFound();
-            }
-
-            oldJob.licensePlate = job.licensePlate;
-            oldJob.manufacturingYear = job.manufacturingYear;
-            oldJob.description = job.description;
-            oldJob.severity = job.severity;
-            oldJob.status = job.status;
-            oldJob.workCategory = job.workCategory;
-
-            _mechanicDbContext.Jobs.Update(oldJob);
-            await _mechanicDbContext.SaveChangesAsync();
-
-            return Ok();
+            return NotFound();
         }
 
+        var estimate = JobHelper.CalculateEstimatedHours(existingJob);
 
-        [HttpGet("{jobId}/estimate")]
-        public async Task<ActionResult<double>> GetEstimatedHours(string jobId)
-        {
-            var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
-            if (existingJob is null)
-            {
-                return NotFound();
-            }
-
-            var estimate = JobHelper.CalculateEstimatedHours(existingJob);
-
-            return Ok(estimate);
-
-        }
+        return Ok(estimate);
 
     }
+
 }

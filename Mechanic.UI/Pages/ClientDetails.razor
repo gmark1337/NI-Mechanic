@@ -1,10 +1,20 @@
 ﻿@page "/client/{id}"
 @using Mechanic.UI.Services
+@using Mechanic.Shared;
 @inject IClientService ClientService
 @inject NavigationManager NavigationManager
 
-<h3>ClientDetails</h3>
+<h3>Client Details</h3>
+@if (_client is not null)
+{
+	<ClientForm Client="_client" OnValidSubmit="UpdateAsync" ButtonText="Update client"/>
 
+	<button class=" btn btn-danger" @onclick="DeleteAsync">Delete client</button>
+}
+else
+{
+	<p>Loading...</p>
+}
 @code {
 	private Client _client;
 

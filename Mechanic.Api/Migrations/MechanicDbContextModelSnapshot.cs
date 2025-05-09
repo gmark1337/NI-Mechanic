@@ -3,7 +3,7 @@ using Mechanic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
+using Mechanic.EFcore;
 #nullable disable
 
 namespace Mechanic.Api.Migrations

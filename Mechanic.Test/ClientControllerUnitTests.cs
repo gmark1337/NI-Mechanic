@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Mechanic.EFcore;
+using Mechanic.Shared;
 
 namespace Mechanic.Test
 {

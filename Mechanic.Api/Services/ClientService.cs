@@ -1,4 +1,6 @@
-﻿public class ClientService : IClientService
+﻿using Mechanic.Shared;
+using Mechanic.IServices;
+public class ClientService : IClientService
 {
     private readonly List<Client> _client;
     private readonly ILogger<ClientService> _logger;

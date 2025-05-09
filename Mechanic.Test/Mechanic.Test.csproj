@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mechanic.Api\Mechanic.Api.csproj" />
+    <ProjectReference Include="..\Mechanic.Shared\Mechanic.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

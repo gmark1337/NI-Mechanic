@@ -1,7 +1,8 @@
 using Mechanic.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Mechanic.EFcore;
+using Mechanic.Shared;
 namespace Mechanic.Test;
 
 public class JobControllerUnitTests

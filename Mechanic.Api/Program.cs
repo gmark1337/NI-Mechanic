@@ -4,6 +4,9 @@ using Mechanic.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json.Serialization;
+using Mechanic.EFcore;
+using Mechanic.Controllers;
+using Mechanic.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 

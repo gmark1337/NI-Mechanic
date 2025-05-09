@@ -1,4 +1,4 @@
-﻿
+﻿@using Mechanic.Shared;
 
 <EditForm Model="Client" OnValidSubmit="OnValidSubmit">
 	<DataAnnotationsValidator/>
@@ -15,10 +15,12 @@
 		<ValidationMessage For="() => Client.Email" />
 	</div>
 	<div class="mb-3">
-		<label class="form-label">Birth date</label>
-		<InputDate @bind-Value="Client.Address" class="form-control" />
+		<label class="form-label">Address</label>
+		<InputText @bind-Value="Client.Address" class="form-control" />
 		<ValidationMessage For="() => Client.Address" />
 	</div>
+
+	<button type="submit" class="btn btn-primary">@ButtonText</button>
 </EditForm>
 
 

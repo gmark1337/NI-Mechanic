@@ -1,15 +1,16 @@
-﻿namespace Mechanic.UI.Services
+﻿using Mechanic.Shared;
+
+namespace Mechanic.UI.Services;
+
+public interface IClientService
 {
-    public interface IClientService
-    {
-        Task<List<Client>> GetClientsAsync();
-        Task<Client> GetClientAsync(string id);
+    Task<List<Client>> GetClientsAsync();
+    Task<Client> GetClientAsync(string id);
 
-        Task AddClientAsync(Client client);
+    Task AddClientAsync(Client client);
 
-        Task UpdateClientAsync(string id, Client client);
+    Task UpdateClientAsync(string id, Client client);
 
-        Task DeleteClientAsync(string id);
+    Task DeleteClientAsync(string id);
 
-    }
 }
