@@ -36,7 +36,9 @@ public class ClientController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
-        var existingClient = await _mechanicDbContext.Clients.FindAsync(id);
+        var existingClient = await _mechanicDbContext
+            .Clients.Include(j => j.jobs)
+            .FirstOrDefaultAsync(c => c.Id == id);
 
         if (existingClient is null)
         {
@@ -97,11 +99,24 @@ public class ClientController : ControllerBase
         oldClient.Address = client.Address;
         oldClient.Email = client.Email;
 
-        oldClient.jobs.Clear();
-        foreach(var job in client.jobs)
+        foreach(var updatedJob in client.jobs)
         {
-            oldClient.jobs.Add(job);
+            var existingJob = oldClient.jobs.FirstOrDefault(j => j.jobId == updatedJob.jobId);
+            if (existingJob != null)
+            {
+                existingJob.licensePlate = updatedJob.licensePlate;
+                existingJob.description = updatedJob.description;
+                existingJob.severity = updatedJob.severity;
+                existingJob.status = updatedJob.status;
+                existingJob.manufacturingYear = updatedJob.manufacturingYear;
+                existingJob.workCategory = updatedJob.workCategory;
+            }
+            else
+            {
+                oldClient.jobs.Add(updatedJob);
+            }
         }
+
 
         _mechanicDbContext.Clients.Update(oldClient);
         await _mechanicDbContext.SaveChangesAsync();

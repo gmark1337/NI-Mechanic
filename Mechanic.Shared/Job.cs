@@ -45,6 +45,8 @@ namespace Mechanic
         [JsonIgnore]
         public  Client Client { get; set; }
 
+        public double estimatedHours => JobHelper.CalculateEstimatedHours(this);
+
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

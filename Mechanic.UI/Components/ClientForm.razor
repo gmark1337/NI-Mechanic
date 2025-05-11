@@ -79,6 +79,12 @@
                         <InputNumber @bind-Value="job.severity" class="form-control" />
                         <ValidationMessage For="@(() => job.severity)" />
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Working Hours</label>
+                        <input type="text" class="form-control" value="@job.estimatedHours" readonly />
+                    </div>
+                    
                 </div>
             </div>
         }

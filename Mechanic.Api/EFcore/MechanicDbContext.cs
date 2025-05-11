@@ -22,7 +22,8 @@ public class MechanicDbContext : DbContext
         modelBuilder.Entity<Job>()
             .HasOne(j => j.Client)
             .WithMany(c => c.jobs)
-            .HasForeignKey(j => j.customerId);
+            .HasForeignKey(j => j.customerId)
+            .OnDelete( DeleteBehavior.Cascade);
     }
 
 }
