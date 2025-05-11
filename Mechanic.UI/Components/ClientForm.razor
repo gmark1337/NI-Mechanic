@@ -5,6 +5,11 @@
 	<ValidationSummary/>
 
 	<div class="mb-3">
+		<label class="form-control-plaintext" >Client ID</label>
+		<InputText @bind-Value="Client.Id" class="@("cursor-disabled")" disabled ="@IsDisabled"/>
+		<ValidationMessage For="() => Client.Id" />
+	</div>
+	<div class="mb-3">
 		<label class="form-label">Name</label>
 		<InputText @bind-Value="Client.Name" class="form-control" />
 		<ValidationMessage For="() => Client.Name" />
@@ -20,6 +25,66 @@
 		<ValidationMessage For="() => Client.Address" />
 	</div>
 
+    <div class="mb-3">
+        <label class="form-label">Jobs</label>
+
+        @foreach (var job in Client.jobs)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Job Details</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label">License Plate</label>
+                        <InputText @bind-Value="job.licensePlate" class="form-control" />
+                        <ValidationMessage For="@(() => job.licensePlate)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Manufacturing Year</label>
+                        <InputNumber @bind-Value="job.manufacturingYear" class="form-control" />
+                        <ValidationMessage For="@(() => job.manufacturingYear)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Job Description</label>
+                        <InputText @bind-Value="job.description" class="form-control" />
+                        <ValidationMessage For="@(() => job.description)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Work Category</label>
+                        <InputSelect @bind-Value="job.workCategory" class="form-control">
+                            @foreach (workCategory category in Enum.GetValues(typeof(workCategory)))
+                            {
+                                <option value="@category">@category</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => job.workCategory)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Work Status</label>
+                        <InputSelect @bind-Value="job.status" class="form-control">
+                            @foreach (workStage stage in Enum.GetValues(typeof(workStage)))
+                            {
+                                <option value="@stage">@stage</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => job.status)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Severity</label>
+                        <InputNumber @bind-Value="job.severity" class="form-control" />
+                        <ValidationMessage For="@(() => job.severity)" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
 	<button type="submit" class="btn btn-primary">@ButtonText</button>
 </EditForm>
 
@@ -33,4 +98,6 @@
 
 	[Parameter]
 	public string ButtonText{ get; set; }
+
+	protected bool IsDisabled { get; set; }
 }

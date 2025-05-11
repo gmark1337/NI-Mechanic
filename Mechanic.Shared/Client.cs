@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace Mechanic.Shared;
@@ -20,7 +21,5 @@ public class Client
     [Required(AllowEmptyStrings = false)]
     [EmailAddress]
     public string Email { get; set; }
-
-
-    public ICollection<Job> Jobs { get; set; }
+    public ICollection<Job> jobs { get; set; } = new List<Job>();
 }

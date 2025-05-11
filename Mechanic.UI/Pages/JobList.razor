@@ -15,8 +15,8 @@
 	<table class=" table table-hover border">
 		<thead>
 			<tr>
-				<th>Client name</th>
 				<th>License Plate</th>
+				<th>Manufacturing Year</th>
 				<th>Details</th>
 			</tr>
 		</thead>
@@ -24,8 +24,8 @@
 			@foreach(var job in _job)
 			{
 				<tr>
-					<td>@job.Client.Name</td>
 					<td>@job.licensePlate</td>
+					<td>@job.manufacturingYear</td>
 					<td>
 						<a href="/job/@job.jobId">
 							Details
@@ -36,6 +36,7 @@
 		</tbody>
 	</table>
 }
+
 else
 {
 	<p>Loading...</p>
@@ -45,8 +46,6 @@ else
 
 @code {
 	private List<Job> _job;
-
-	private List<Client> _client;
 
 	protected override async Task OnInitializedAsync()
 	{

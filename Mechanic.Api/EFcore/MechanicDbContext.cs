@@ -20,9 +20,9 @@ public class MechanicDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Job>()
-            .HasOne(c => c.Client)
-            .WithMany(c => c.Jobs)
-            .HasForeignKey(c => c.customerId);
+            .HasOne(j => j.Client)
+            .WithMany(c => c.jobs)
+            .HasForeignKey(j => j.customerId);
     }
 
 }

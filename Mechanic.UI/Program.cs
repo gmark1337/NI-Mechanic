@@ -14,5 +14,4 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IJobService, JobService>();
 
 
-
 await builder.Build().RunAsync();

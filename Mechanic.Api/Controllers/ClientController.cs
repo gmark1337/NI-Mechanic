@@ -53,7 +53,9 @@ public class ClientController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Client>>> GetAll()
     {
-        var client = await _mechanicDbContext.Clients.ToListAsync();
+        var client = await _mechanicDbContext.Clients
+            .Include(c => c.jobs)
+            .ToListAsync();
 
         return Ok(client);
     }
@@ -61,7 +63,9 @@ public class ClientController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Client>> Get(string id)
     {
-        var client = await _mechanicDbContext.Clients.FindAsync(id);
+        var client = await _mechanicDbContext.Clients
+            .Include(c => c.jobs)
+            .FirstOrDefaultAsync(c => c.Id == id);
 
         if (client is null)
         {
@@ -79,7 +83,9 @@ public class ClientController : ControllerBase
             return BadRequest();
         }
 
-        var oldClient = await _mechanicDbContext.Clients.FindAsync(id);
+        var oldClient = await _mechanicDbContext
+            .Clients.Include(c => c.jobs)
+            .FirstOrDefaultAsync(c => c.Id == id);
 
 
         if (oldClient is null)
@@ -90,6 +96,12 @@ public class ClientController : ControllerBase
         oldClient.Name = client.Name;
         oldClient.Address = client.Address;
         oldClient.Email = client.Email;
+
+        oldClient.jobs.Clear();
+        foreach(var job in client.jobs)
+        {
+            oldClient.jobs.Add(job);
+        }
 
         _mechanicDbContext.Clients.Update(oldClient);
         await _mechanicDbContext.SaveChangesAsync();

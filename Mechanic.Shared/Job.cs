@@ -41,9 +41,9 @@ namespace Mechanic
         [Required(AllowEmptyStrings = false)]
         public workStage status { get; set; }
 
-
         [ForeignKey("customerId")]
-        public virtual Client Client { get; set; }
+        [JsonIgnore]
+        public  Client Client { get; set; }
 
     }
 
@@ -57,6 +57,7 @@ namespace Mechanic
     }
 
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum workStage
     {
         Felvett_Munka = 0,

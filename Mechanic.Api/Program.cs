@@ -17,6 +17,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        
     });
 
 
@@ -38,6 +39,7 @@ builder.Services.AddDbContext<MechanicDbContext>(
     options =>
     {
         options.UseSqlite(builder.Configuration.GetConnectionString("SQLite"));
+        //options.UseLazyLoadingProxies();
     });
 
 builder.Services.AddCors();
