@@ -1,11 +1,10 @@
 ﻿@using Mechanic.Shared
 @using Mechanic.UI.Services
+@inject IClientService ClientService
 
 <EditForm Model="job" OnValidSubmit="OnValidSubmit">
 	<DataAnnotationsValidator/>
 	<ValidationSummary/>
-
-
 
 
 	<div class=" mb-3">
@@ -15,10 +14,24 @@
 	</div>
 
 	<div class=" mb-3">
-		<label class=" form-control-plaintext">Customer ID</label>
+		<label class=" form-control-plaintext">Job ID</label>
 		<InputText @bind-Value="job.customerId" class="@("cursor-disabled")" disabled="@IsDisabled" />
 		<ValidationMessage For="() => job.customerId" />
 	</div>
+
+	<div class="mb-3">
+		<label class="form-label">Customer</label>
+		<InputSelect @bind-Value="job.customerId" class="form-control">
+			<option value="">-- Select a client --</option>
+			@foreach (var c in clients)
+			{
+				<option value="@c.Id">@($"{c.Name} || ({c.Email})")</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="() => job.customerId" />
+	</div>
+
+
 
 	<div class=" mb-3">
 		<label class=" form-label">License Plate</label>
@@ -31,7 +44,7 @@
 		<ValidationMessage For="() => job.manufacturingYear"/>
 	</div>
 	<div class=" mb-3">
-		<label class=" form-label">License Plate</label>
+		<label class=" form-label">Work Category</label>
 		<InputSelect @bind-Value="job.workCategory" class=" form-control">
 			@foreach(workCategory category in Enum.GetValues(typeof(workCategory)))
 			{
@@ -40,21 +53,8 @@
 			<ValidationMessage For="() => job.workCategory"/>
 		</InputSelect>
 	</div>
-	<div class="mb-3">
-		<label class="form-label">Work Status</label>
-		<InputSelect @bind-Value="job.status" class="form-control">
-			@foreach (workStage stage in Enum.GetValues(typeof(workStage)))
-			{
-				<option value="@stage">@stage</option>
-			}
-		</InputSelect>
-		<ValidationMessage For="() => job.status" />
-	</div>
-	<div class=" mb-3">
-		<label class=" form-label">License Plate</label>
-		<InputText @bind-Value="job.licensePlate" class=" form-control" />
-		<ValidationMessage For="() => job.licensePlate" />
-	</div>
+
+	
 	<div class=" mb-3">
 		<label class=" form-label">Description </label>
 		<InputText @bind-Value="job.description" class=" form-control" />
@@ -65,12 +65,23 @@
 		<InputNumber @bind-Value="job.severity" class=" form-control" />
 		<ValidationMessage For="() => job.severity" />
 	</div>
+	
+
+	<div class="mb-3">
+		<label class="form-label">Work Status</label>
+		<InputSelect @bind-Value="job.status" class="form-control">
+			@foreach (workStage stage in Enum.GetValues(typeof(workStage)))
+			{
+				<option value="@stage">@stage</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="() => job.status" />
+	</div>
+
 	<div class="mb-3">
 		<label class="form-label">Working Hours</label>
 		<input type="text" class="form-control" value="@job.estimatedHours" readonly />
 	</div>
-
-
 
 	<button type="submit" class="btn btn-primary">@ButtonText</button>
 </EditForm>
@@ -80,6 +91,7 @@
 	[Parameter]
 	public Job job { get; set; }
 
+
 	[Parameter]
 	public Func<Task> OnValidSubmit{ get; set; }
 
@@ -87,5 +99,12 @@
 	public string ButtonText{ get; set; }
 
 	protected bool IsDisabled { get; set; }
+
+	public List<Client> clients = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		clients = await ClientService.GetClientsAsync();
+	}
 
 }
