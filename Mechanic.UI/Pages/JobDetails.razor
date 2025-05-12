@@ -8,8 +8,8 @@
 
 @if(_job is not null)
 {
-	<JobForm Job="_job" OnValidSubmit="UpdateAsync" ButtonText="Update Job"/>
-	<button class=" btn btn-danger " @onclick="DeleteAsync">Delete Job</button>
+	<JobForm Job="_job" OnValidSubmit="UpdateAsync" ButtonText="Update"/>
+	<button class=" btn btn-danger " @onclick="DeleteAsync">Delete</button>
 }
 else
 {

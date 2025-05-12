@@ -4,11 +4,13 @@
 	<DataAnnotationsValidator/>
 	<ValidationSummary/>
 
+    @* FOR TEST PURPOSES ONLY 
 	<div class="mb-3">
 		<label class="form-control-plaintext" >Client ID</label>
 		<InputText @bind-Value="Client.Id" class="@("cursor-disabled")" disabled ="@IsDisabled"/>
 		<ValidationMessage For="() => Client.Id" />
 	</div>
+    *@
 	<div class="mb-3">
 		<label class="form-label">Name</label>
 		<InputText @bind-Value="Client.Name" class="form-control" />

@@ -16,7 +16,7 @@ namespace Mechanic
         public string customerId { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [RegularExpression(@"^[A-Z]{3}-\d{3}")]
+        [RegularExpression(@"^[A-Z]{3}-\d{3}",ErrorMessage ="The license plate contains 3 capital letter and 3 numbers! For example: ASD-782")]
         public string licensePlate { get; set; }
 
 

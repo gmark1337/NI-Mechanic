@@ -7,9 +7,9 @@
 <h3>Client Details</h3>
 @if (_client is not null)
 {
-	<ClientForm Client="_client" OnValidSubmit="UpdateAsync" ButtonText="Update client"/>
+	<ClientForm Client="_client" OnValidSubmit="UpdateAsync" ButtonText="Update"/>
 
-	<button class=" btn btn-danger" @onclick="DeleteAsync">Delete client</button>
+	<button class=" btn btn-danger" @onclick="DeleteAsync">Delete</button>
 }
 else
 {
