@@ -42,6 +42,8 @@ namespace Mechanic
         public workStage status { get; set; }
 
         [ForeignKey("customerId")]
+
+        //Ignores this attribute when sending Job to the UI because it causes Rendering issues
         [JsonIgnore]
         public  Client Client { get; set; }
 

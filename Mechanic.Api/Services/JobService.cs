@@ -34,11 +34,6 @@ public class JobService : IJobService
     {
         var oldJob = Get(job.jobId);
 
-        if ((int)job.status < (int)oldJob.status)
-        {
-            throw new InvalidOperationException("Work stage can only change forward!");
-        }
-
         oldJob.licensePlate = job.licensePlate;
         oldJob.manufacturingYear = job.manufacturingYear;
         oldJob.description = job.description;

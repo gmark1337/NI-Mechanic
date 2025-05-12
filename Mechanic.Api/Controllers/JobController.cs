@@ -125,6 +125,13 @@ public class JobController : Controller
 
     }
 
+    //Calculates if the work stage transition is right
+    //For example.:
+    //WRONG TRANSITION: Under_work -> Started (2 -> 1)
+    // 1 >= 2 and 1 - 2 <=  1 both returns false
+    //-------------------------------------------------------
+    //RIGHT TRANSITION: Started -> Under_work(1 -> 2)
+    // 2 >= 1 and 2 -1 <= 1 both return true
     private bool isValidStageTransition(workStage current, workStage next)
     {
         return (int) next >= (int) current && (int) next - (int)current <=1;

@@ -15,10 +15,14 @@ public class MechanicDbContext : DbContext
 
     }
 
+
+    //Creates the 1:n relation with Clients id and Jobs customerID
+    //Although, UseLazyLoadingProxies already did the job :P
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
+        //One Client can have more car repairs
         modelBuilder.Entity<Job>()
             .HasOne(j => j.Client)
             .WithMany(c => c.jobs)

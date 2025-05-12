@@ -24,6 +24,8 @@ builder.Services.AddControllers()
 builder.Services.AddSwaggerGen();
 
 
+
+//Configuration of the logging
 builder.Services.AddSerilog(
     options => options
     .MinimumLevel.Information()

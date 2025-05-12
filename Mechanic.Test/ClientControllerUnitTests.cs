@@ -8,8 +8,11 @@ using Mechanic.Shared;
 
 namespace Mechanic.Test
 {
+
     public class ClientControllerUnitTests
     {
+        //Creates a virutal database simulating the existing database 
+        //It's easier to set up and consistent
         private MechanicDbContext GetDbContext()
         {
             var options = new DbContextOptionsBuilder<MechanicDbContext>()
@@ -25,6 +28,8 @@ namespace Mechanic.Test
             var dbContext = GetDbContext();
             var controller = new ClientController(dbContext);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.EnsureCreatedAsync();
 
@@ -54,6 +59,8 @@ namespace Mechanic.Test
             var dbContext = GetDbContext();
             var controller = new ClientController(dbContext);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.EnsureCreatedAsync();
 
@@ -86,6 +93,8 @@ namespace Mechanic.Test
             var dbContext = GetDbContext();
             var controller = new ClientController(dbContext);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await dbContext.Database.EnsureDeletedAsync();
             await dbContext.Database.EnsureCreatedAsync();
 
@@ -110,6 +119,9 @@ namespace Mechanic.Test
             var contextDb = GetDbContext();
             var controller = new ClientController(contextDb);
 
+
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await contextDb.Database.EnsureDeletedAsync();
             await contextDb.Database.EnsureCreatedAsync();
 
@@ -124,6 +136,8 @@ namespace Mechanic.Test
             var contextDb = GetDbContext();
             var controller = new ClientController(contextDb);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await contextDb.Database.EnsureDeletedAsync();
             await contextDb.Database.EnsureCreatedAsync();
 
@@ -151,6 +165,8 @@ namespace Mechanic.Test
             var contextDb = GetDbContext();
             var controller = new ClientController(contextDb);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await contextDb.Database.EnsureDeletedAsync();
             await contextDb.Database.EnsureCreatedAsync();
 
@@ -178,6 +194,8 @@ namespace Mechanic.Test
             var contextDb = GetDbContext();
             var controller = new ClientController(contextDb);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await contextDb.Database.EnsureDeletedAsync();
             await contextDb.Database.EnsureCreatedAsync();
 
@@ -193,6 +211,8 @@ namespace Mechanic.Test
             var contextDb = GetDbContext();
             var controller = new ClientController(contextDb);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await contextDb.Database.EnsureDeletedAsync();
             await contextDb.Database.EnsureCreatedAsync();
 
@@ -224,6 +244,8 @@ namespace Mechanic.Test
             var contextDb = GetDbContext();
             var controller = new ClientController(contextDb);
 
+            //Deletes the content of the virtual database and creates a new one
+            //Without this it sabotages other tests
             await contextDb.Database.EnsureDeletedAsync();
             await contextDb.Database.EnsureCreatedAsync();
 

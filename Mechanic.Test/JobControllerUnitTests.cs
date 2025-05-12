@@ -7,6 +7,9 @@ namespace Mechanic.Test;
 
 public class JobControllerUnitTests
 {
+
+    //Creates a virutal database simulating the existing database 
+    //It's easier to set up and consistent
     private MechanicDbContext GetDbContext()
     {
         var options = new DbContextOptionsBuilder<MechanicDbContext>()
@@ -23,6 +26,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -57,6 +62,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -113,6 +120,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -149,6 +158,9 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -164,6 +176,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -202,6 +216,9 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -215,6 +232,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -253,6 +272,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -307,6 +328,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -361,6 +384,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 
@@ -398,6 +423,8 @@ public class JobControllerUnitTests
         MechanicDbContext contextDb = GetDbContext();
         JobController controller = new JobController(contextDb);
 
+        //Deletes the content of the virtual database and creates a new one
+        //Without this it sabotages other tests
         await contextDb.Database.EnsureDeletedAsync();
         await contextDb.Database.EnsureCreatedAsync();
 

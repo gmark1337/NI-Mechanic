@@ -55,6 +55,8 @@ public class ClientController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Client>>> GetAll()
     {
+
+        //Sends the client with the collection of Jobs assigned to a Client when fetched
         var client = await _mechanicDbContext.Clients
             .Include(c => c.jobs)
             .ToListAsync();
@@ -65,6 +67,7 @@ public class ClientController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Client>> Get(string id)
     {
+        //Sends the client with the collection of Jobs assigned to a Client when fetched
         var client = await _mechanicDbContext.Clients
             .Include(c => c.jobs)
             .FirstOrDefaultAsync(c => c.Id == id);
@@ -85,6 +88,7 @@ public class ClientController : ControllerBase
             return BadRequest();
         }
 
+        //Sends the client with the collection of Jobs assigned to a Client when fetched
         var oldClient = await _mechanicDbContext
             .Clients.Include(c => c.jobs)
             .FirstOrDefaultAsync(c => c.Id == id);
@@ -99,6 +103,7 @@ public class ClientController : ControllerBase
         oldClient.Address = client.Address;
         oldClient.Email = client.Email;
 
+        //updates the Collection of jobs assigned to a client
         foreach(var updatedJob in client.jobs)
         {
             var existingJob = oldClient.jobs.FirstOrDefault(j => j.jobId == updatedJob.jobId);

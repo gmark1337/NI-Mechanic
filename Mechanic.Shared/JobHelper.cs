@@ -2,6 +2,8 @@
 {
     public static class JobHelper
     {
+
+        //Calculates the required working hours of the car repair 
         public static double CalculateEstimatedHours(Job job)
         {
             double baseHours = job.workCategory switch
