@@ -91,6 +91,11 @@ public class JobController : Controller
             return NotFound();
         }
 
+        if(!isValidStageTransition(oldJob.status, job.status))
+        {
+            return BadRequest("Invalid stage transition");
+        }
+
         oldJob.licensePlate = job.licensePlate;
         oldJob.manufacturingYear = job.manufacturingYear;
         oldJob.description = job.description;
@@ -120,4 +125,8 @@ public class JobController : Controller
 
     }
 
+    private bool isValidStageTransition(workStage current, workStage next)
+    {
+        return (int) next >= (int) current && (int) next - (int)current <=1;
+    }
 }
