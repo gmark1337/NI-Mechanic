@@ -33,8 +33,8 @@ builder.Services.AddSerilog(
 
 
 
-builder.Services.AddSingleton<IClientService, ClientService>();
-builder.Services.AddSingleton<IJobService, JobService>();
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IJobService, JobService>();
 
 
 builder.Services.AddDbContext<MechanicDbContext>(

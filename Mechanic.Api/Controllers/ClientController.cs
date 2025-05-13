@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Mechanic.Shared;
 using Mechanic.EFcore;
+using Mechanic.IServices;
 
 namespace Mechanic.Controllers;
 
@@ -10,25 +11,25 @@ namespace Mechanic.Controllers;
 [Route("client")]
 public class ClientController : ControllerBase
 {
-    private readonly MechanicDbContext _mechanicDbContext;
+    private readonly IClientService _clientService;
 
-    public ClientController(MechanicDbContext mechanicDbContext)
+    public ClientController(IClientService clientService)
     {
-        _mechanicDbContext = mechanicDbContext;
+        _clientService = clientService;
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] Client client)
     {
-        var existingClient = await _mechanicDbContext.Clients.FindAsync(client.Id);
+        var existingClient = await _clientService.Get(client.Id);
 
         if (existingClient != null)
         {
             return Conflict();
         }
 
-        _mechanicDbContext.Clients.Add(client);
-        await _mechanicDbContext.SaveChangesAsync();
+        
+        await _clientService.Add(client);
 
         return Ok();
     }
@@ -36,17 +37,14 @@ public class ClientController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
-        var existingClient = await _mechanicDbContext
-            .Clients.Include(j => j.jobs)
-            .FirstOrDefaultAsync(c => c.Id == id);
+        var existingClient = _clientService.Get(id);
 
         if (existingClient is null)
         {
             return NotFound();
         }
 
-        _mechanicDbContext.Clients.Remove(existingClient);
-        await _mechanicDbContext.SaveChangesAsync();
+        await _clientService.Delete(id);
 
         return Ok();
 
@@ -55,77 +53,45 @@ public class ClientController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Client>>> GetAll()
     {
+        var existingClients = await _clientService.Get();
 
-        //Sends the client with the collection of Jobs assigned to a Client when fetched
-        var client = await _mechanicDbContext.Clients
-            .Include(c => c.jobs)
-            .ToListAsync();
+        if(existingClients is null)
+        {
+            return NotFound();
+        }
 
-        return Ok(client);
+        return Ok(existingClients);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Client>> Get(string id)
     {
-        //Sends the client with the collection of Jobs assigned to a Client when fetched
-        var client = await _mechanicDbContext.Clients
-            .Include(c => c.jobs)
-            .FirstOrDefaultAsync(c => c.Id == id);
+        var existingClient = await _clientService.Get(id);
 
-        if (client is null)
+        if (existingClient is null)
         {
             return NotFound();
         }
 
-        return Ok(client);
+        return Ok(existingClient);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] Client client)
     {
-        if (id != client.Id)
+        if(id != client.Id)
         {
             return BadRequest();
         }
 
-        //Sends the client with the collection of Jobs assigned to a Client when fetched
-        var oldClient = await _mechanicDbContext
-            .Clients.Include(c => c.jobs)
-            .FirstOrDefaultAsync(c => c.Id == id);
+        var existingClient = _clientService.Get(id);
 
-
-        if (oldClient is null)
+        if(existingClient is null)
         {
             return NotFound();
         }
 
-        oldClient.Name = client.Name;
-        oldClient.Address = client.Address;
-        oldClient.Email = client.Email;
-
-        //updates the Collection of jobs assigned to a client
-        foreach(var updatedJob in client.jobs)
-        {
-            var existingJob = oldClient.jobs.FirstOrDefault(j => j.jobId == updatedJob.jobId);
-            if (existingJob != null)
-            {
-                existingJob.licensePlate = updatedJob.licensePlate;
-                existingJob.description = updatedJob.description;
-                existingJob.severity = updatedJob.severity;
-                existingJob.status = updatedJob.status;
-                existingJob.manufacturingYear = updatedJob.manufacturingYear;
-                existingJob.workCategory = updatedJob.workCategory;
-            }
-            else
-            {
-                oldClient.jobs.Add(updatedJob);
-            }
-        }
-
-
-        _mechanicDbContext.Clients.Update(oldClient);
-        await _mechanicDbContext.SaveChangesAsync();
-
+        await _clientService.Update(client);
         return Ok();
     }
 }

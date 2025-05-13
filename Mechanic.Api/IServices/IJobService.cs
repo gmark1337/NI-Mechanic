@@ -2,16 +2,16 @@
 
 public interface IJobService
 {
-    void Add(Job job);
+    Task Add(Job job);
 
-    void Delete(string jobId);
+    Task Delete(string jobId);
 
-    List<Job> Get();
+    Task<List<Job>> Get();
 
-    Job Get(string jobId);
+    Task<Job> Get(string jobId);
 
-    void Update(Job job);
+    Task Update(Job job);
 
-    double GetEstimatedHours(string jobId);
+    Task<double?> GetEstimatedHours(string jobId);
 
 }

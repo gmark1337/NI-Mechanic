@@ -1,45 +1,91 @@
 ﻿using Mechanic.Shared;
 using Mechanic.IServices;
+using Mechanic.EFcore;
+using Microsoft.EntityFrameworkCore;
 public class ClientService : IClientService
 {
-    private readonly List<Client> _client;
+    private readonly MechanicDbContext _mechanicDbContext;
     private readonly ILogger<ClientService> _logger;
 
-    public ClientService(ILogger<ClientService> logger)
+    public ClientService(MechanicDbContext mechanicDb,ILogger<ClientService> logger)
     {
-        _client = [];
+        _mechanicDbContext = mechanicDb;
         _logger = logger;
     }
-    public void Add(Client client)
+    public async Task Add(Client client)
     {
-        _client.Add(client);
+        _mechanicDbContext.Add(client);
+        await _mechanicDbContext.SaveChangesAsync();
         _logger.LogInformation("Client added: {@Client}", client);
     }
 
-    public void Delete(string id)
+    public async Task Delete(string id)
     {
-        _client.RemoveAll(x => x.Id == id);
+        var existingClient = await _mechanicDbContext
+            .Clients.Include(j => j.jobs)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (existingClient != null)
+        {
+            _mechanicDbContext.Clients.Remove(existingClient);
+            await _mechanicDbContext.SaveChangesAsync();
+        }
     }
 
-    public List<Client> Get()
+    public async Task<List<Client>> Get()
     {
-        return _client;
+        return  await _mechanicDbContext.Clients
+            .Include(c => c.jobs)
+            .ToListAsync();
     }
 
-    public Client Get(string id)
+    public async Task<Client> Get(string id)
     {
-        return _client.Find(x => x.Id == id);
+        return await _mechanicDbContext.Clients
+            .Include(c => c.jobs)
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public void Update(Client client)
+    public async Task Update(Client client)
     {
-        var oldClient = Get(client.Id);
+
+        //Sends the client with the collection of Jobs assigned to a Client when fetched
+        var oldClient = await _mechanicDbContext
+            .Clients.Include(c => c.jobs)
+            .FirstOrDefaultAsync(c => c.Id == client.Id);
+
+
+        if (oldClient is null)
+        {
+            return ;
+        }   
 
         oldClient.Name = client.Name;
         oldClient.Address = client.Address;
         oldClient.Email = client.Email;
 
-        _logger.LogInformation($"Client updated: {client.Name}");
+        //updates the Collection of jobs assigned to a client
+        foreach (var updatedJob in client.jobs)
+        {
+            var existingJob = oldClient.jobs.FirstOrDefault(j => j.jobId == updatedJob.jobId);
+            if (existingJob != null)
+            {
+                existingJob.licensePlate = updatedJob.licensePlate;
+                existingJob.description = updatedJob.description;
+                existingJob.severity = updatedJob.severity;
+                existingJob.status = updatedJob.status;
+                existingJob.manufacturingYear = updatedJob.manufacturingYear;
+                existingJob.workCategory = updatedJob.workCategory;
+            }
+            else
+            {
+                oldClient.jobs.Add(updatedJob);
+            }
+        }
+
+
+        _mechanicDbContext.Clients.Update(oldClient);
+        await _mechanicDbContext.SaveChangesAsync();
     }
 }
 

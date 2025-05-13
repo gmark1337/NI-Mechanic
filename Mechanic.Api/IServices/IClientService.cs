@@ -4,13 +4,13 @@
 namespace Mechanic.IServices;
 public interface IClientService
 {
-    void Add(Client client);
+    Task Add(Client client);
 
-    void Delete(string id);
+    Task Delete(string id);
 
-    List<Client> Get();
+    Task<List<Client>> Get();
 
-    Client Get(string id);
+    Task<Client> Get(string id);
 
-    void Update(Client client);
+    Task Update(Client client);
 }

@@ -1,38 +1,54 @@
 ﻿namespace Mechanic.Api.Services;
 
+using Mechanic.EFcore;
 using Mechanic.IServices;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 public class JobService : IJobService
 {
-    private readonly List<Job> _jobs;
+    private readonly MechanicDbContext _mechanicDbContext;
 
-    public JobService()
+    public JobService(MechanicDbContext context)
     {
-        _jobs = [];
+        _mechanicDbContext = context;
     }
-    public void Add(Job job)
+    public async Task Add(Job job)
     {
-        _jobs.Add(job);
-    }
-
-    public void Delete(string jobId)
-    {
-        _jobs.RemoveAll(x => x.jobId == jobId);
+        _mechanicDbContext.Add(job);
+        await _mechanicDbContext.SaveChangesAsync();
     }
 
-    public List<Job> Get()
+    public async Task Delete(string jobId)
     {
-        return _jobs;
+        var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
+
+        if (existingJob != null)
+        {
+            _mechanicDbContext.Jobs.Remove(existingJob);
+            await _mechanicDbContext.SaveChangesAsync();
+        }
+
+        
     }
 
-    public Job Get(string jobId)
+    public async Task <List<Job>> Get()
     {
-        return _jobs.Find(x => x.jobId == jobId);
+        return await _mechanicDbContext.Jobs.ToListAsync();
     }
 
-    public void Update(Job job)
+    public async Task<Job> Get(string jobId)
     {
-        var oldJob = Get(job.jobId);
+        return await _mechanicDbContext.Jobs.FindAsync(jobId);
+    }
+
+    public async Task Update(Job job)
+    {
+        var oldJob = await _mechanicDbContext.Jobs.FindAsync(job.jobId);
+
+        if (oldJob == null) {
+            return;
+        }
 
         oldJob.licensePlate = job.licensePlate;
         oldJob.manufacturingYear = job.manufacturingYear;
@@ -40,12 +56,16 @@ public class JobService : IJobService
         oldJob.severity = job.severity;
         oldJob.status = job.status;
         oldJob.workCategory = job.workCategory;
+
+        _mechanicDbContext.Jobs.Update(oldJob);
+        await _mechanicDbContext.SaveChangesAsync();
     }
 
-    public double GetEstimatedHours(string jobId)
+    public async Task<double?> GetEstimatedHours(string jobId)
     {
-        var existingJob = Get(jobId);
-        return JobHelper.CalculateEstimatedHours(existingJob);
+        var existingJob = await _mechanicDbContext.Jobs.FindAsync(jobId);
+        return existingJob == null ? null : JobHelper.CalculateEstimatedHours(existingJob);
+
     }
 
 }
