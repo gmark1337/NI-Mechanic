@@ -6,19 +6,19 @@ It Includes:
 - EF core: SQlite-based persistence with Entity Framework Core
 
 Features
--Create, update, and delete clients
--Register jobs for clients
--Calculate estimated repair time
--Validate job stage transitions
--View all clients and their job history
--Responsive Blazor WebAssembly frontend
+- Create, update, and delete clients
+- Register jobs for clients
+- Calculate estimated repair time
+- Validate job stage transitions
+- View all clients and their job history
+- Responsive Blazor WebAssembly frontend
 
 Technologies Used
--.NET 9
--Blazor WebAssembly
--ASP.NET Core Web API
--Entity Framework Core (SQLite)
--C#
+- .NET 9
+- Blazor WebAssembly
+- ASP.NET Core Web API
+- Entity Framework Core(SQLite)
+- C#
 
 
 
